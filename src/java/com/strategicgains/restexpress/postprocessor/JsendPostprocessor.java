@@ -13,25 +13,32 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
-package com.strategicgains.restexpress;
+package com.strategicgains.restexpress.postprocessor;
+
+import com.strategicgains.restexpress.Format;
+import com.strategicgains.restexpress.Request;
+import com.strategicgains.restexpress.Response;
+import com.strategicgains.restexpress.pipeline.Postprocessor;
 
 /**
- * Some helpful constants for possible values of the {format} specifier in routes.
- * 
  * @author toddf
- * @since Jan 19, 2011
+ * @since Nov 9, 2011
  */
-public abstract class Format
+public class JsendPostprocessor
+implements Postprocessor
 {
-	public static final String HTML = "html";
-	public static final String JAVASCRIPT = "js";
-	public static final String JSON = "json";
-	public static final String JSEND = "jsend";
-	public static final String TXT = "txt";
-	public static final String XML = "xml";
-
-	private Format()
+	@Override
+	public void process(Request request, Response response)
 	{
-		// prevents instantiation.
+		if (request.isFormatEqual(Format.JSEND))
+		{
+			
+		}
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		return (obj.getClass().equals(this.getClass()));
 	}
 }

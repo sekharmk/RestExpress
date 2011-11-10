@@ -39,9 +39,7 @@ import com.strategicgains.restexpress.pipeline.PipelineBuilder;
 import com.strategicgains.restexpress.pipeline.Postprocessor;
 import com.strategicgains.restexpress.pipeline.Preprocessor;
 import com.strategicgains.restexpress.plugin.Plugin;
-import com.strategicgains.restexpress.response.DefaultResponseWrapper;
-import com.strategicgains.restexpress.response.RawResponseWrapper;
-import com.strategicgains.restexpress.response.ResponseWrapperFactory;
+import com.strategicgains.restexpress.postprocessor.JsendPostprocessor;
 import com.strategicgains.restexpress.route.RouteDeclaration;
 import com.strategicgains.restexpress.route.RouteResolver;
 import com.strategicgains.restexpress.serialization.AliasingSerializationProcessor;
@@ -65,8 +63,7 @@ import com.strategicgains.restexpress.util.Resolver;
  */
 public class RestExpress
 {
-	private static final ChannelGroup allChannels = new DefaultChannelGroup(
-	    "RestExpress");
+	private static final ChannelGroup allChannels = new DefaultChannelGroup("RestExpress");
 
 	public static final int DEFAULT_PORT = 8081;
 	public static final String DEFAULT_NAME = "RestExpress";
@@ -84,7 +81,6 @@ public class RestExpress
 	private int connectTimeoutMillis = 10000; // netty default
 	private LogLevel logLevel = LogLevel.DEBUG; // Netty default
 	private boolean useSystemOut;
-	private ResponseWrapperFactory responseWrapperFactory;
 	private boolean shouldHandleChunking = true;
 	private boolean shouldUseCompression = true;
 	private Integer maxChunkSize = null;
@@ -101,7 +97,7 @@ public class RestExpress
 
 	/**
 	 * Create a new RestExpress service. By default, RestExpress uses port 8081.
-	 * Supports JSON, and XML, providing JSEND-style wrapped responses. And
+	 * Supports JSON, XML, and JSEND-style wrapped responses (for JSON). And
 	 * displays some messages on System.out. These can be altered with the
 	 * setPort(), noJson(), noXml(), noSystemOut(), and useRawResponses() DSL
 	 * modifiers, respectively, as needed.
@@ -131,10 +127,10 @@ public class RestExpress
 		setRoutes(routes);
 		setName(DEFAULT_NAME);
 		setPort(DEFAULT_PORT);
-		supportJson(true);
+		supportJson();
 		supportXml();
+		supportJsend(true);
 		useSystemOut();
-		useWrappedResponses();
 	}
 
 	/**
@@ -240,19 +236,64 @@ public class RestExpress
 	}
 
 	/**
-	 * Tell RestExpress to support JSON in routes, incoming and outgoing. By
-	 * default RestExpress supports JSON and is the default.
+	 * Tell RestExpress to support JSEND wrapped responses in routes. By
+	 * default RestExpress supports JSEND and is the default.  Incoming bodies
+	 * should be simple JSON (not a JSEND-wrapped body).
 	 * 
-	 * @param isDefault
-	 *            true to make JSON the default format.
+	 * @param isDefault true to make JSEND the default format.
+	 * @return the RestExpress instance.
+	 */
+	public RestExpress supportJsend(boolean isDefault)
+	{
+		if (!getSerializationProcessors().containsKey(Format.JSEND))
+		{
+			serializationProcessors.put(Format.JSEND, new DefaultJsonProcessor());
+			addPostprocessor(new JsendPostprocessor());
+		}
+
+		if (isDefault)
+		{
+			setDefaultFormat(Format.JSEND);
+		}
+
+		return this;
+	}
+
+	/**
+	 * Tell RestExpress to support JSEND in routes. By
+	 * default RestExpress supports JSEND and is the default.
+	 * 
+	 * @return the RestExpress instance.
+	 */
+	public RestExpress supportJsend()
+	{
+		return supportJsend(false);
+	}
+
+	/**
+	 * Tell RestExpress to not support JSEND in routes.
+	 * Client must call setDefaultFormat(String) to set the default format to
+	 * something else.
+	 * 
+	 * @return the RestExpress instance.
+	 */
+	public RestExpress noJsend()
+	{
+		serializationProcessors.remove(Format.JSEND);
+		return this;
+	}
+
+	/**
+	 * Tell RestExpress to support JSON in routes, both incoming and outgoing.
+	 * 
+	 * @param isDefault true to make JSON the default format.
 	 * @return the RestExpress instance.
 	 */
 	public RestExpress supportJson(boolean isDefault)
 	{
 		if (!getSerializationProcessors().containsKey(Format.JSON))
 		{
-			serializationProcessors
-			    .put(Format.JSON, new DefaultJsonProcessor());
+			serializationProcessors.put(Format.JSON, new DefaultJsonProcessor());
 		}
 
 		if (isDefault)
@@ -264,8 +305,7 @@ public class RestExpress
 	}
 
 	/**
-	 * Tell RestExpress to support JSON in routes, incoming and outgoing. By
-	 * default RestExpress supports JSON and is the default.
+	 * Tell RestExpress to support JSON in routes, both incoming and outgoing.
 	 * 
 	 * @return the RestExpress instance.
 	 */
@@ -275,7 +315,7 @@ public class RestExpress
 	}
 
 	/**
-	 * Tell RestExpress to not support JSON in routes, incoming or outgoing.
+	 * Tell RestExpress to not support JSON in routes, neither incoming nor outgoing.
 	 * Client must call setDefaultFormat(String) to set the default format to
 	 * something else.
 	 * 
@@ -299,8 +339,7 @@ public class RestExpress
 	{
 		if (!getSerializationProcessors().containsKey(Format.XML))
 		{
-			getSerializationProcessors().put(Format.XML,
-			    new DefaultXmlProcessor());
+			getSerializationProcessors().put(Format.XML, new DefaultXmlProcessor());
 		}
 
 		if (isDefault)
@@ -377,8 +416,7 @@ public class RestExpress
 	{
 		if (!getSerializationProcessors().containsKey(Format.TXT))
 		{
-			getSerializationProcessors().put(Format.TXT,
-			    new DefaultTxtProcessor());
+			getSerializationProcessors().put(Format.TXT, new DefaultTxtProcessor());
 		}
 
 		if (isDefault)
@@ -575,18 +613,6 @@ public class RestExpress
 		return this;
 	}
 
-	public RestExpress useWrappedResponses()
-	{
-		responseWrapperFactory = new DefaultResponseWrapper();
-		return this;
-	}
-
-	public RestExpress useRawResponses()
-	{
-		responseWrapperFactory = new RawResponseWrapper();
-		return this;
-	}
-
 	public <T extends Exception, U extends ServiceException> RestExpress mapException(
 	    Class<T> from, Class<U> to)
 	{
@@ -632,7 +658,6 @@ public class RestExpress
 		// Set up the event pipeline factory.
 		DefaultRequestHandler requestHandler = new DefaultRequestHandler(
 		    createRouteResolver(), createSerializationResolver());
-		requestHandler.setResponseWrapperFactory(responseWrapperFactory);
 
 		// Add MessageObservers to the request handler here, if desired...
 		requestHandler.addMessageObserver(messageObservers
