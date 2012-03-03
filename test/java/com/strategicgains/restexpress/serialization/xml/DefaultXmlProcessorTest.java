@@ -29,6 +29,7 @@ import org.junit.Test;
 
 import com.strategicgains.restexpress.ContentType;
 import com.strategicgains.restexpress.serialization.KnownObject;
+import com.strategicgains.restexpress.serialization.xstream.XstreamXmlProcessor;
 
 /**
  * @author toddf
@@ -38,7 +39,7 @@ public class DefaultXmlProcessorTest
 {
 	private static final String XML = "<KnownObject><integer>2</integer><string>another string value</string><date>1963-12-06T12:30:00.000Z</date></KnownObject>";
 
-	private DefaultXmlProcessor processor = new DefaultXmlProcessor();
+	private XstreamXmlProcessor processor = new XstreamXmlProcessor();
 	
 	@Before
 	public void setup()

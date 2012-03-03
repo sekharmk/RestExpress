@@ -17,6 +17,7 @@ package com.strategicgains.restexpress.domain.metadata;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +26,11 @@ import java.util.List;
  */
 public class RouteMetadata
 {
+	private Date createdAt = new Date();
+	public Date getCreatedAt()
+	{
+		return createdAt;
+	}
 	private String name;
 	private UriMetadata uri;
 	private List<String> supportedFormats;

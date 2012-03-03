@@ -24,8 +24,8 @@ import org.junit.Test;
 
 import com.strategicgains.restexpress.route.RouteDeclaration;
 import com.strategicgains.restexpress.serialization.SerializationProcessor;
-import com.strategicgains.restexpress.serialization.json.DefaultJsonProcessor;
-import com.strategicgains.restexpress.serialization.xml.DefaultXmlProcessor;
+import com.strategicgains.restexpress.serialization.gson.GsonJsonProcessor;
+import com.strategicgains.restexpress.serialization.xstream.XstreamXmlProcessor;
 
 
 /**
@@ -107,7 +107,7 @@ public class RestExpressTest
 	@Test
 	public void shouldCustomizeJsonSerializer()
 	{
-		server.putSerializationProcessor(Format.JSON, new DefaultJsonProcessor());
+		server.putSerializationProcessor(Format.JSON, new GsonJsonProcessor());
 		assertEquals(Format.JSON, server.getDefaultFormat());
 		assertTrue(server.getSerializationProcessors().containsKey(Format.JSON));
 		assertTrue(server.getSerializationProcessors().containsKey(Format.XML));
@@ -117,7 +117,7 @@ public class RestExpressTest
 	@Test
 	public void shouldCustomizeXmlSerializer()
 	{
-		server.putSerializationProcessor(Format.XML, new DefaultXmlProcessor());
+		server.putSerializationProcessor(Format.XML, new XstreamXmlProcessor());
 		assertEquals(Format.JSON, server.getDefaultFormat());
 		assertTrue(server.getSerializationProcessors().containsKey(Format.JSON));
 		assertTrue(server.getSerializationProcessors().containsKey(Format.XML));
@@ -127,7 +127,7 @@ public class RestExpressTest
 	@Test
 	public void shouldNotUpdateJsonSerializer()
 	{
-		SerializationProcessor sp = new DefaultJsonProcessor();
+		SerializationProcessor sp = new GsonJsonProcessor();
 		server.putSerializationProcessor(Format.JSON, sp);
 		server.supportJson(true);
 		assertEquals(Format.JSON, server.getDefaultFormat());
@@ -141,7 +141,7 @@ public class RestExpressTest
 	@Test
 	public void shouldNotUpdateXmlSerializer()
 	{
-		SerializationProcessor sp = new DefaultXmlProcessor();
+		SerializationProcessor sp = new XstreamXmlProcessor();
 		server.putSerializationProcessor(Format.XML, sp);
 		server.supportXml(true);
 		assertEquals(Format.XML, server.getDefaultFormat());
@@ -155,7 +155,7 @@ public class RestExpressTest
 	@Test
 	public void shouldNotUpdateTxtSerializer()
 	{
-		SerializationProcessor sp = new DefaultXmlProcessor();
+		SerializationProcessor sp = new XstreamXmlProcessor();
 		server.putSerializationProcessor(Format.TXT, sp);
 		server.supportTxt(true);
 		assertEquals(Format.TXT, server.getDefaultFormat());

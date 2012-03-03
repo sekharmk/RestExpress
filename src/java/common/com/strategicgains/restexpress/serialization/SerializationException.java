@@ -15,21 +15,43 @@
  * limitations under the License.
  */
 
-package com.strategicgains.restexpress.serialization.json;
-
-import com.strategicgains.util.date.TimestampAdapter;
+package com.strategicgains.restexpress.serialization;
 
 /**
- * A GSON serializer for Date instances represented (and to be presented) as a timestamps (dates with time component).
- * 
  * @author toddf
- * @since Nov 13, 2009
+ * @since Nov 20, 2009
  */
-public class GsonTimestampSerializer
-extends GsonDateSerializer
+public class SerializationException
+extends RuntimeException
 {
-	public GsonTimestampSerializer()
+    private static final long serialVersionUID = -5208426797622464550L;
+
+	public SerializationException()
 	{
-		super(new TimestampAdapter());
+	}
+
+	/**
+	 * @param message
+	 */
+	public SerializationException(String message)
+	{
+		super(message);
+	}
+
+	/**
+	 * @param cause
+	 */
+	public SerializationException(Throwable cause)
+	{
+		super(cause);
+	}
+
+	/**
+	 * @param message
+	 * @param cause
+	 */
+	public SerializationException(String message, Throwable cause)
+	{
+		super(message, cause);
 	}
 }

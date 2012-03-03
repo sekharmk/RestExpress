@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="src" path="test/java"/>
 	<classpathentry kind="src" path="examples/kickstart/src/java"/>
+	<classpathentry kind="src" path="src/java/common"/>
+	<classpathentry kind="src" path="src/java/jackson"/>
+	<classpathentry kind="src" path="src/java/gson"/>
+	<classpathentry kind="src" path="src/java/xstream"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/xpp3_min-1.1.4c.jar"/>
 	<classpathentry kind="lib" path="lib/xstream-1.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/gson-1.6.jar" sourcepath="lib/sources/gson-1.6-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/DateAdapterJ-1.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/netty-3.3.1.Final.jar"/>
+	<classpathentry kind="lib" path="lib/gson/gson-1.6.jar"/>
+	<classpathentry kind="lib" path="lib/jackson/jackson-core-asl-1.9.5.jar"/>
+	<classpathentry kind="lib" path="lib/jackson/jackson-mapper-asl-1.9.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

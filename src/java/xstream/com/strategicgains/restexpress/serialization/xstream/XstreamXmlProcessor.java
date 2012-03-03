@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.strategicgains.restexpress.serialization.xml;
+package com.strategicgains.restexpress.serialization.xstream;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,14 +38,14 @@ import com.thoughtworks.xstream.converters.SingleValueConverter;
  * @author toddf
  * @since Mar 16, 2010
  */
-public class DefaultXmlProcessor
+public class XstreamXmlProcessor
 implements AliasingSerializationProcessor
 {
 	private XStream xstream;
 	private Map<Class<?>, String> aliases = new HashMap<Class<?>, String>();
 	private boolean shouldAutoAlias = true;
 	
-	public DefaultXmlProcessor()
+	public XstreamXmlProcessor()
 	{
 		this(new XStream());
 		xstream.registerConverter(new XstreamTimestampConverter());
@@ -54,7 +54,7 @@ implements AliasingSerializationProcessor
 		xstream.alias("response", ResultWrapper.class);
 	}
 	
-	public DefaultXmlProcessor(XStream xstream)
+	public XstreamXmlProcessor(XStream xstream)
 	{
 		super();
 		this.xstream = xstream;

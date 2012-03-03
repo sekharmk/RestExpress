@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.strategicgains.restexpress.serialization.json;
+package com.strategicgains.restexpress.serialization.gson;
 
 import com.google.gson.InstanceCreator;
 import com.google.gson.JsonDeserializer;

@@ -40,8 +40,8 @@ import com.strategicgains.restexpress.response.StringBufferHttpResponseWriter;
 import com.strategicgains.restexpress.route.RouteDeclaration;
 import com.strategicgains.restexpress.route.RouteResolver;
 import com.strategicgains.restexpress.serialization.DefaultSerializationResolver;
-import com.strategicgains.restexpress.serialization.json.DefaultJsonProcessor;
-import com.strategicgains.restexpress.serialization.xml.DefaultXmlProcessor;
+import com.strategicgains.restexpress.serialization.gson.GsonJsonProcessor;
+import com.strategicgains.restexpress.serialization.xstream.XstreamXmlProcessor;
 
 
 /**
@@ -61,8 +61,8 @@ public class JsendWrappedResponseTest
 	throws Exception
 	{
 		DefaultSerializationResolver resolver = new DefaultSerializationResolver();
-		resolver.put(Format.JSON, new DefaultJsonProcessor());
-		resolver.put(Format.XML, new DefaultXmlProcessor());
+		resolver.put(Format.JSON, new GsonJsonProcessor());
+		resolver.put(Format.XML, new XstreamXmlProcessor());
 		resolver.setDefaultFormat(Format.JSON);
 		
 		messageHandler = new DefaultRequestHandler(new RouteResolver(new DummyRoutes().createRouteMapping()), resolver);

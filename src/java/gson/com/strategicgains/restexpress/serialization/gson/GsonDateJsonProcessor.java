@@ -13,7 +13,7 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
-package com.strategicgains.restexpress.serialization.json;
+package com.strategicgains.restexpress.serialization.gson;
 
 import java.util.Date;
 
@@ -27,10 +27,10 @@ import com.strategicgains.util.date.DateAdapterConstants;
  * @author toddf
  * @since Nov 29, 2010
  */
-public class DateJsonProcessor
-extends DefaultJsonProcessor
+public class GsonDateJsonProcessor
+extends GsonJsonProcessor
 {
-	public DateJsonProcessor()
+	public GsonDateJsonProcessor()
     {
 	    super(new GsonBuilder()
 	    	.disableHtmlEscaping()

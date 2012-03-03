@@ -48,8 +48,8 @@ import com.strategicgains.restexpress.response.StringBufferHttpResponseWriter;
 import com.strategicgains.restexpress.route.RouteDeclaration;
 import com.strategicgains.restexpress.route.RouteResolver;
 import com.strategicgains.restexpress.serialization.DefaultSerializationResolver;
-import com.strategicgains.restexpress.serialization.json.DefaultJsonProcessor;
-import com.strategicgains.restexpress.serialization.xml.DefaultXmlProcessor;
+import com.strategicgains.restexpress.serialization.gson.GsonJsonProcessor;
+import com.strategicgains.restexpress.serialization.xstream.XstreamXmlProcessor;
 
 
 /**
@@ -70,8 +70,8 @@ public class DefaultRequestHandlerTest
 	throws Exception
 	{
 		DefaultSerializationResolver resolver = new DefaultSerializationResolver();
-		resolver.put(Format.JSON, new DefaultJsonProcessor());
-		DefaultXmlProcessor xmlProcessor = new DefaultXmlProcessor();
+		resolver.put(Format.JSON, new GsonJsonProcessor());
+		XstreamXmlProcessor xmlProcessor = new XstreamXmlProcessor();
 		xmlProcessor.alias("dated", Dated.class);
 		resolver.put(Format.XML, xmlProcessor);
 		resolver.setDefaultFormat(Format.JSON);

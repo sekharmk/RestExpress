@@ -13,7 +13,7 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.
 */
-package com.strategicgains.restexpress.serialization.xml;
+package com.strategicgains.restexpress.serialization.xstream;
 
 import java.text.ParseException;
 import java.util.Date;

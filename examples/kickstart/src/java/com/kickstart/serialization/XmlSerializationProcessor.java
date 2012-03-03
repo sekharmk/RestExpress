@@ -1,13 +1,13 @@
 package com.kickstart.serialization;
 
-import com.strategicgains.restexpress.serialization.xml.DefaultXmlProcessor;
+import com.strategicgains.restexpress.serialization.xstream.XstreamXmlProcessor;
 
 /**
  * @author toddf
  * @since Feb 16, 2011
  */
 public class XmlSerializationProcessor
-extends DefaultXmlProcessor
+extends XstreamXmlProcessor
 {
 	public XmlSerializationProcessor()
     {

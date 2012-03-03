@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.strategicgains.restexpress.serialization.json;
+package com.strategicgains.restexpress.serialization.gson;
 
 import java.io.InputStreamReader;
 import java.util.Date;
@@ -37,23 +37,23 @@ import com.strategicgains.util.date.DateAdapterConstants;
  * @author toddf
  * @since Mar 16, 2010
  */
-public class DefaultJsonProcessor
+public class GsonJsonProcessor
 implements SerializationProcessor
 {
 	private Gson gson;
 	
-	public DefaultJsonProcessor()
+	public GsonJsonProcessor()
 	{
-		super();
-		gson = new GsonBuilder()
+		this(new GsonBuilder()
 			.disableHtmlEscaping()
 			.registerTypeAdapter(Date.class, new GsonTimestampSerializer())
 			.setDateFormat(DateAdapterConstants.TIMESTAMP_OUTPUT_FORMAT)
 			.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-			.create();
+			.create()
+		);
 	}
 	
-	public DefaultJsonProcessor(Gson gson)
+	public GsonJsonProcessor(Gson gson)
 	{
 		super();
 		this.gson = gson;
@@ -65,7 +65,7 @@ implements SerializationProcessor
     @Override
     public <T> T deserialize(String string, Class<T> type)
     {
-    	return gson.fromJson((String) string, type);
+    	return gson.fromJson(string, type);
     }
 
     @Override

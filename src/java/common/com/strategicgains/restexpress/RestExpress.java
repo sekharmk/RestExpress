@@ -50,9 +50,9 @@ import com.strategicgains.restexpress.serialization.AliasingSerializationProcess
 import com.strategicgains.restexpress.serialization.DefaultSerializationResolver;
 import com.strategicgains.restexpress.serialization.SerializationProcessor;
 import com.strategicgains.restexpress.serialization.SerializationResolver;
-import com.strategicgains.restexpress.serialization.json.DefaultJsonProcessor;
+import com.strategicgains.restexpress.serialization.gson.GsonJsonProcessor;
 import com.strategicgains.restexpress.serialization.text.DefaultTxtProcessor;
-import com.strategicgains.restexpress.serialization.xml.DefaultXmlProcessor;
+import com.strategicgains.restexpress.serialization.xstream.XstreamXmlProcessor;
 import com.strategicgains.restexpress.util.Bootstraps;
 import com.strategicgains.restexpress.util.DefaultShutdownHook;
 import com.strategicgains.restexpress.util.LogLevel;
@@ -261,7 +261,7 @@ public class RestExpress
 		if (!getSerializationProcessors().containsKey(Format.JSON))
 		{
 			serializationProcessors
-			    .put(Format.JSON, new DefaultJsonProcessor());
+			    .put(Format.JSON, new GsonJsonProcessor());
 		}
 
 		if (isDefault)
@@ -309,7 +309,7 @@ public class RestExpress
 		if (!getSerializationProcessors().containsKey(Format.XML))
 		{
 			getSerializationProcessors().put(Format.XML,
-			    new DefaultXmlProcessor());
+			    new XstreamXmlProcessor());
 		}
 
 		if (isDefault)

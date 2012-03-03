@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.strategicgains.restexpress.serialization.json;
+package com.strategicgains.restexpress.serialization.gson;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;

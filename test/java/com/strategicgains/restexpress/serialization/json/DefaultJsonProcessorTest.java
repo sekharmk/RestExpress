@@ -28,6 +28,7 @@ import org.junit.Test;
 
 import com.strategicgains.restexpress.ContentType;
 import com.strategicgains.restexpress.serialization.KnownObject;
+import com.strategicgains.restexpress.serialization.gson.GsonJsonProcessor;
 
 /**
  * @author toddf
@@ -37,7 +38,7 @@ public class DefaultJsonProcessorTest
 {
 	private static final String JSON = "{\"integer\":2,\"string\":\"another string value\",\"date\":\"1963-12-06T12:30:00.000Z\"}";
 
-	private DefaultJsonProcessor processor = new DefaultJsonProcessor();
+	private GsonJsonProcessor processor = new GsonJsonProcessor();
 
 	@Test
 	public void shouldSerializeObject()
