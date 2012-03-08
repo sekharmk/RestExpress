@@ -5,10 +5,17 @@
 	<property file="build.properties"/>
 	<property name="dir.src" value="${basedir}/src"/>
 	<property name="dir.src.java" value="${dir.src}/java"/>
+	<property name="dir.src.common" value="${dir.src.java}/common"/>
+	<property name="dir.src.gson" value="${dir.src.java}/gson"/>
+	<property name="dir.src.jackson" value="${dir.src.java}/jackson"/>
+	<property name="dir.src.xstream" value="${dir.src.java}/xstream"/>
 	<property name="dir.src.test" value="${basedir}/test/java"/>
 	<property name="dir.src.kickstart" value="${basedir}/examples/kickstart"/>
 	<property name="dir.build" value="${basedir}/build"/>
 	<property name="dir.compile" value="${dir.build}/classes/main"/>
+	<property name="dir.compile.gson" value="${dir.build}/gson/classes/main"/>
+	<property name="dir.compile.jackson" value="${dir.build}/jackson/classes/main"/>
+	<property name="dir.compile.xstream" value="${dir.build}/xstream/classes/main"/>
 	<property name="dir.compile.test" value="${dir.build}/classes/test"/>
 	<property name="dir.lib" value="${basedir}/lib"/>
 	<property name="dir.dist" value="${basedir}/dist"/>
@@ -17,6 +24,9 @@
 
 	<path id="compile.classpath">
 		<pathelement location="${dir.compile}"/>
+		<pathelement location="${dir.compile.gson}"/>
+		<pathelement location="${dir.compile.jackson}"/>
+		<pathelement location="${dir.compile.xstream}"/>
 		<fileset dir="${dir.lib}">
 			<include name="**/*.jar"/>
 		</fileset>
@@ -37,6 +47,9 @@
 
     <target name="_init">
 		<mkdir dir="${dir.compile}"/>
+    	<mkdir dir="${dir.compile.gson}"/>
+    	<mkdir dir="${dir.compile.jackson}"/>
+    	<mkdir dir="${dir.compile.xstream}"/>
 		<mkdir dir="${dir.compile.test}"/>
 		<mkdir dir="${dir.dist}"/>
     </target>
@@ -50,7 +63,8 @@
           target: compile
          ====================================================================== -->
     <target name="compile"  depends="_init">
-		<javac destdir="${dir.compile}"
+
+    	<javac destdir="${dir.compile}"
 			failonerror="yes"
 			fork="yes"
     		source="${javac.source}"
@@ -59,7 +73,46 @@
 				<path refid="compile.classpath"/>
 			</classpath>
 			<src>
-				<pathelement location="${dir.src.java}"/>
+				<pathelement location="${dir.src}"/>
+			</src>
+		</javac>
+
+    	<javac destdir="${dir.compile.gson}"
+			failonerror="yes"
+			fork="yes"
+    		source="${javac.source}"
+    		debug="${javac.debug}">
+			<classpath>
+				<path refid="compile.classpath"/>
+			</classpath>
+			<src>
+				<pathelement location="${dir.src.gson}"/>
+			</src>
+		</javac>
+
+    	<javac destdir="${dir.compile.jackson}"
+			failonerror="yes"
+			fork="yes"
+    		source="${javac.source}"
+    		debug="${javac.debug}">
+			<classpath>
+				<path refid="compile.classpath"/>
+			</classpath>
+			<src>
+				<pathelement location="${dir.src.jackson}"/>
+			</src>
+		</javac>
+
+    	<javac destdir="${dir.compile.xstream}"
+			failonerror="yes"
+			fork="yes"
+    		source="${javac.source}"
+    		debug="${javac.debug}">
+			<classpath>
+				<path refid="compile.classpath"/>
+			</classpath>
+			<src>
+				<pathelement location="${dir.src.xstream}"/>
 			</src>
 		</javac>
     	
