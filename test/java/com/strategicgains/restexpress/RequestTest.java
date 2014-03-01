@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.net.URLEncoder;
 import java.util.List;
@@ -247,5 +248,11 @@ public class RequestTest
 		assertTrue(request.getHeaderNames().contains("header-key"));
 		assertTrue(request.getHeaderNames().contains("header-key-1"));
 		assertTrue(request.getHeaderNames().contains("header-key-2"));
+	}
+	@Test
+	public void shouldHandleMissingHeaderNames()
+	{
+		request.addHeader("header-key", "header-value");
+		assertFalse(request.getHeaderNames().contains("header-key3"));
 	}
 }
